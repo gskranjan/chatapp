@@ -3,6 +3,9 @@ const express = require('express');
 const socketIO=require('socket.io');
 const http=require('http');
 
+var g=require('./functions.js');
+generateMessage=g.generateMessage;
+
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 var app = express();
@@ -18,28 +21,16 @@ io.on('connection',(socket)=>{
     
     console.log('new user connected');
     
-    socket.emit('welcome',{
-        from:'admin',
-        text:'welcome to chat app',
-        createdAt:new Date().getTime()
-    });
+    socket.emit('welcome',generateMessage('admin','welcome to chat'));
     
-    socket.broadcast.emit('newUser',{
-         from:'admin',
-        text:'new user joined',
-        createdAt:new Date().getTime()
-    });
+    socket.broadcast.emit('newUser',generateMessage('admin','new user joined'));
 
     
     
     socket.on('createMessage',function(message){
      
         
-        io.emit('newMessage',{
-            from:message.from,
-         text:message.text,
-        createdAt:new Date().getTime()
-      });
+        io.emit('newMessage',generateMessage(message.from,message.text));
         
         
       /*  socket.broadcast.emit('newMessage',{
@@ -48,8 +39,12 @@ io.on('connection',(socket)=>{
            text:message.text,
            createdAt:new Date().getTime()
         });
-        */
-    })
+   
+   
+   */
+
+
+    });
     
     socket.on('disconnect',()=>{
         
@@ -59,6 +54,11 @@ io.on('connection',(socket)=>{
 })
 
 
+    
+
+    
+ 
+    
 server.listen(port, () => {
   console.log(`Server is up on ${port}`);
 });
