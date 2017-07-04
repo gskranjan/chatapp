@@ -13,30 +13,42 @@ var io=socketIO(server);
 app.use(express.static(publicPath));
 
 
-/*io.on('connection',(socket)=>{
-    console.log('new user connected');
-    
- 
-    
-    socket.on('disconnect',()=>{
-        console.log('disconnected');
-    })
-});
-*/
+
 io.on('connection',(socket)=>{
     
     console.log('new user connected');
     
-    socket.emit('newMessage',{
-        from:'ranjan',
-        text:'hey',
-        createdAt:123123
-        
+    socket.emit('welcome',{
+        from:'admin',
+        text:'welcome to chat app',
+        createdAt:new Date().getTime()
     });
+    
+    socket.broadcast.emit('newUser',{
+         from:'admin',
+        text:'new user joined',
+        createdAt:new Date().getTime()
+    });
+
     
     
     socket.on('createMessage',function(message){
-        console.log(message);
+     
+        
+        io.emit('newMessage',{
+            from:message.from,
+         text:message.text,
+        createdAt:new Date().getTime()
+      });
+        
+        
+      /*  socket.broadcast.emit('newMessage',{
+            
+            from:message.from,
+           text:message.text,
+           createdAt:new Date().getTime()
+        });
+        */
     })
     
     socket.on('disconnect',()=>{
