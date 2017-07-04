@@ -1,18 +1,12 @@
-const path=require('path');
+const path = require('path');
+const express = require('express');
 
-const express=require('express');
-
-const port=process.env.Port||3000;
-
-const app=express();
-
-const publicPath=path.join(__dirname,'../public');
-
-
-
+const publicPath = path.join(__dirname, '../public');
+const port = process.env.PORT || 3000;
+var app = express();
 
 app.use(express.static(publicPath));
 
-app.listen(port,()=>{
-    console.log('server is on');
-})
+app.listen(port, () => {
+  console.log(`Server is up on ${port}`);
+});
