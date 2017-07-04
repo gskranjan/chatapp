@@ -21,17 +21,18 @@ io.on('connection',(socket)=>{
     
     console.log('new user connected');
     
-    socket.emit('welcome',generateMessage('admin','welcome to chat'));
+    socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));
     
     socket.broadcast.emit('newUser',generateMessage('admin','new user joined'));
 
     
     
-    socket.on('createMessage',function(message){
+    socket.on('createMessage',function(message,callback){
      
         
         io.emit('newMessage',generateMessage(message.from,message.text));
         
+        callback('we got it');
         
       /*  socket.broadcast.emit('newMessage',{
             

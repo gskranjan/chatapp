@@ -32,17 +32,59 @@ socket.on('connect',function(){
     
     
     socket.on('newMessage',function(message){
+        
+        
         console.log(message);
+       
+        
+        var li=jQuery('<li></li>');
+        
+        li.text(message.from+':'+message.text);
+        
+        jQuery('#messages').append(li);
+        
     });
+    
+    
     
     socket.on('welcome',function(message){
         console.log(message);
+        
+        var h=jQuery('<h3></h3>');
+        
+        h.text(message.text);
+        
+        jQuery('#header').append(h);
     });
     
     socket.on('newUser',function(message)
     {
         console.log(message);
+        
+        var newu=jQuery('<p></p>');
+        
+        newu.text(message.text);
+        
+        jQuery('#new').append(newu);
     });
+    
+  
+    
+    
+    jQuery('#message-form').on('submit',function(e){
+        
+        e.preventDefault();
+        
+        socket.emit('createMessage',{
+            from:'user',
+            text:jQuery('[name=message]').val()
+            
+        },function(){
+            
+        });
+    });
+    
+    
 });
 
 
