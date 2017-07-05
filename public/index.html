@@ -4,27 +4,44 @@
 
 <head>
   <meta charset="utf-8">
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 
-<body>
+<body class="chat">
    
     
+   <div class="chat__sidebar">
+    <h3>
+       Neon
+       
+       </h3>
+       
+       <div id="users"></div>
+    
+    </div> 
     
     
-    <div id="header">Welcome to Neon Chat app(Created By Ranjan)</div>
-    <div id="new"></div>
-    <ol id="messages"></ol>
-        <div id="new"></div>
-    
-    
-    <form id="message-form">
+    <div class="chat__main">
         
-        <input type="text" name="message" placeholder="type something here"/>
+          <ol id="messages" class="chat__messages"></ol>
+        
+        <div class="chat__footer">
+      <form id="message-form">
+        
+        <input type="text" name="message" placeholder="type something here" autofocus autocomplete="off"/>
       <button>Send</button>
     
     </form>
     
     <button id="address">Send Address</button>
+        </div>
+    
+    </div>
+    
+   
+   
+    
+    
     
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/index.js"></script>

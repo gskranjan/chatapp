@@ -27,14 +27,14 @@ io.on('connection',(socket)=>{
     
    /* socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));*/
     
-    socket.broadcast.emit('newMessage',generateMessage('admin','new user joined'));
+    socket.broadcast.emit('newMessage',generateMessage('Admin','new user joined'));
     
-    
+    socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'))
     
 
     socket.on('createLocationMessage',(message)=>{
         
-        io.emit('newLocationMessage',generateLocationMessage('admin',message.latitude,message.longitude));
+        io.emit('newLocationMessage',generateLocationMessage('Admin',message.latitude,message.longitude));
         
     });
     
@@ -46,7 +46,7 @@ io.on('connection',(socket)=>{
         
         io.emit('newMessage',generateMessage(message.from,message.text));
         
-        callback('we got it');
+        callback();
         
       /*  socket.broadcast.emit('newMessage',{
             

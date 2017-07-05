@@ -76,12 +76,14 @@ socket.on('connect',function(){
         e.preventDefault();
         
         socket.emit('createMessage',{
-            from:'user',
+            from:'User',
             text:jQuery('[name=message]').val()
             
         },function(){
-            
+            jQuery('[name=message]').val('');
         });
+        
+        
     });
     
     
@@ -118,7 +120,11 @@ socket.on('connect',function(){
             return alert('geolocation not supported by your browser');
         };
         
+        locationButton.attr('disabled','disabled').text('Sending location ....');
+        
         navigator.geolocation.getCurrentPosition(function(position){
+            
+            locationButton.removeAttr('disabled').text('Send location');
             
             socket.emit('createLocationMessage',{
                 latitude:position.coords.latitude,
@@ -126,6 +132,7 @@ socket.on('connect',function(){
             });
             
         },function(){
+             locationButton.removeAttr('disabled').text('Send location');
             return alert('unable to fetch location');
         })
         
