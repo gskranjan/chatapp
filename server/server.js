@@ -6,6 +6,10 @@ const http=require('http');
 var g=require('./functions.js');
 generateMessage=g.generateMessage;
 
+
+var p=require('./functions.js');
+generateLocationMessage=p.generateLocationMessage;
+
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 var app = express();
@@ -21,10 +25,20 @@ io.on('connection',(socket)=>{
     
     console.log('new user connected');
     
-    socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));
+   /* socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));*/
     
-    socket.broadcast.emit('newUser',generateMessage('admin','new user joined'));
+    socket.broadcast.emit('newMessage',generateMessage('admin','new user joined'));
+    
+    
+    
 
+    socket.on('createLocationMessage',(message)=>{
+        
+        io.emit('newLocationMessage',generateLocationMessage('admin',message.latitude,message.longitude));
+        
+    });
+    
+    
     
     
     socket.on('createMessage',function(message,callback){

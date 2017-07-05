@@ -47,7 +47,7 @@ socket.on('connect',function(){
     
     
     
-    socket.on('welcome',function(message){
+   /* socket.on('welcome',function(message){
         console.log(message);
         
         var h=jQuery('<h3></h3>');
@@ -56,8 +56,8 @@ socket.on('connect',function(){
         
         jQuery('#header').append(h);
     });
-    
-    socket.on('newUser',function(message)
+    */
+   /* socket.on('newUser',function(message)
     {
         console.log(message);
         
@@ -67,7 +67,7 @@ socket.on('connect',function(){
         
         jQuery('#new').append(newu);
     });
-    
+    */
   
     
     
@@ -85,6 +85,53 @@ socket.on('connect',function(){
     });
     
     
+    
+    socket.on('newLocationMessage',function(message){
+        
+       var li=jQuery('<li></li>');
+        var a=jQuery('<a target="_blank"> My current location </a>');
+        
+        
+        
+        li.text(message.from +':');
+        
+        a.attr('href',message.url);
+        
+        li.append(a);
+        
+        
+        
+        jQuery('#messages').append(li);
+        
+        
+    });
+    
+    
+    
+    
+    
+    var locationButton=jQuery('#address');
+    
+    locationButton.on('click',function(){
+        
+        if(!navigator.geolocation){
+            return alert('geolocation not supported by your browser');
+        };
+        
+        navigator.geolocation.getCurrentPosition(function(position){
+            
+            socket.emit('createLocationMessage',{
+                latitude:position.coords.latitude,
+                longitude:position.coords.longitude
+            });
+            
+        },function(){
+            return alert('unable to fetch location');
+        })
+        
+        
+    });
+    
 });
 
 
@@ -92,4 +139,4 @@ socket.on('connect',function(){
 
 socket.on('disconnect',function(){
     console.log('disconnected from server');
-})
+});
