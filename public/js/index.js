@@ -27,50 +27,39 @@ socket.on('disconnect',function(){
 */
 var socket=io();
 
+
 socket.on('connect',function(){
     console.log('connected to server');
     
     
     socket.on('newMessage',function(message){
         
-        
-        console.log(message);
-       
+         
         var formattedTime=moment(message.createdAt).format('h:mm a');
         
+        var template=jQuery('#message-template').html();
+        var html=Mustache.render(template,{
+            text:message.text,
+            from:message.from,
+            createdAt:formattedTime
+            
+        });
         
+        jQuery('#messages').append(html);
         
-        var li=jQuery('<li></li>');
+      
+      
         
-        li.text(message.from+' '+formattedTime+':'+message.text );
+      //    var li=jQuery('<li></li>');
         
-        jQuery('#messages').append(li);
+    //    li.text(message.from+' '+formattedTime+':'+message.text );
+        
+      //  jQuery('#messages').append(li);
         
     });
     
     
-    
-   /* socket.on('welcome',function(message){
-        console.log(message);
-        
-        var h=jQuery('<h3></h3>');
-        
-        h.text(message.text);
-        
-        jQuery('#header').append(h);
-    });
-    */
-   /* socket.on('newUser',function(message)
-    {
-        console.log(message);
-        
-        var newu=jQuery('<p></p>');
-        
-        newu.text(message.text);
-        
-        jQuery('#new').append(newu);
-    });
-    */
+  
   
     
     
@@ -96,10 +85,26 @@ socket.on('connect',function(){
     
     socket.on('newLocationMessage',function(message){
         
-       var li=jQuery('<li></li>');
+        
+          var formattedTime=moment(message.createdAt).format('h:mm a');
+        
+        var template=jQuery('#location-message').html();
+        
+        var html=Mustache.render(template,{
+            
+            url:message.url,
+            from:message.from,
+            createdAt:formattedTime
+        });
+        
+        jQuery('#messages').append(html);
+        
+        
+        
+      /* var li=jQuery('<li></li>');
         var a=jQuery('<a target="_blank"> My current location </a>');
         
-        var formattedTime=moment(message.createdAt).format('h:mm a');
+      
         
         li.text(message.from+' '+formattedTime +':');
         
@@ -110,7 +115,7 @@ socket.on('connect',function(){
         
         
         jQuery('#messages').append(li);
-        
+        */
         
     });
     
