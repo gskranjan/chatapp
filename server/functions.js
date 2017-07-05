@@ -19,6 +19,12 @@ var generateLocationMessage=(from,latitude,longitude)=>{
     }
 };
 
+var validator=(str)=>{
+    
+    return typeof(str)=='string'&& str.trim().length>0;
+}
+
+module.exports.validator=validator;
 
 module.exports.generateLocationMessage=generateLocationMessage;
 

@@ -10,6 +10,8 @@ generateMessage=g.generateMessage;
 var p=require('./functions.js');
 generateLocationMessage=p.generateLocationMessage;
 
+var q=require('./functions.js');
+validator=q.validator;
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
 var app = express();
@@ -27,9 +29,28 @@ io.on('connection',(socket)=>{
     
    /* socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));*/
     
-    socket.broadcast.emit('newMessage',generateMessage('Admin','new user joined'));
+   
     
-    socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'))
+    socket.on('join',(params,callback)=>{
+        
+      
+        
+        //getting an error if we use ? here
+        if(!validator(params.room)||!validator(params.name)){
+                callback('name and room are required');      
+                      };
+        
+        socket.join(params.room);
+        
+         socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
+    
+    socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'));
+        
+        
+        
+        callback();
+        
+    })
     
 
     socket.on('createLocationMessage',(message)=>{
