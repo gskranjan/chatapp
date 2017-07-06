@@ -109,7 +109,7 @@ socket.emit('join',params,function(err){
         
         
         socket.emit('createMessage',{
-            from:'User',
+            
             text:jQuery('[name=message]').val()
             
         },function(){

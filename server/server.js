@@ -44,7 +44,7 @@ io.on('connection',(socket)=>{
     
     socket.on('join',(params,callback)=>{
         
-      
+          socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'));
  
         if(!validator(params.room)||!validator(params.name)){
               return  callback('name and room are required');      
@@ -60,7 +60,7 @@ io.on('connection',(socket)=>{
         
         socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
     
-    socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'));
+     
         
         
         
@@ -72,8 +72,12 @@ io.on('connection',(socket)=>{
 
     socket.on('createLocationMessage',(message)=>{
         
-        io.emit('newLocationMessage',generateLocationMessage('Admin',message.latitude,message.longitude));
         
+        var user=users.getUser(socket.id);
+        
+        if(user){
+        io.to(user.room).emit('newLocationMessage',generateLocationMessage(user.name,message.latitude,message.longitude));
+        }
     });
     
     
@@ -81,8 +85,15 @@ io.on('connection',(socket)=>{
     
     socket.on('createMessage',function(message,callback){
      
+        var user=users.getUser(socket.id);
         
-        io.emit('newMessage',generateMessage(message.from,message.text));
+        
+        
+        if(user && validator(message.text)){
+        
+        io.to(user.room).emit('newMessage',generateMessage(user.name,message.text));
+        }
+        
         
         callback();
         
