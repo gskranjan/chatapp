@@ -44,6 +44,17 @@ function scrollToBottom () {
 
 socket.on('connect',function(){
     console.log('connected to server');
+    
+    socket.on('updateUserList',function(users){
+       var ol=jQuery('<li></li>');
+        
+        users.forEach(function(user){
+            
+            ol.append(jQuery('<li></li>').text(user));
+        });
+        
+        jQuery('#users').html(ol);
+    });
 
 
 var params=jQuery.deparam(window.location.search);

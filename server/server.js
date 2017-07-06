@@ -12,8 +12,19 @@ generateLocationMessage=p.generateLocationMessage;
 
 var q=require('./functions.js');
 validator=q.validator;
+
+var u=require('./users.js');
+Users=u.Users;
+
+
+var users=new Users();
+
+
+
 const publicPath = path.join(__dirname, '../public');
 const port = process.env.PORT || 3000;
+
+
 var app = express();
 var server=http.createServer(app);
 
@@ -34,17 +45,23 @@ io.on('connection',(socket)=>{
     socket.on('join',(params,callback)=>{
         
       
-        
-        //getting an error if we use ? here
+ 
         if(!validator(params.room)||!validator(params.name)){
-                callback('name and room are required');      
-                      };
+              return  callback('name and room are required');      
+        };
         
         socket.join(params.room);
         
-         socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
+        users.removeUser(socket.id);
+        
+        users.addUser(socket.id,params.name,params.room);
+        
+        io.to(params.room).emit('updateUserList',users.getUserList(params.room));
+        
+        socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
     
     socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'));
+        
         
         
         
@@ -84,7 +101,15 @@ io.on('connection',(socket)=>{
     
     socket.on('disconnect',()=>{
         
-        console.log('client is disconnected');
+       var user=users.removeUser(socket.id);
+        
+        if(user){
+            
+            io.to(user.room).emit('updateUserList',users.getUserList(user.room));
+            io.to(user.room).emit('newMessage',generateMessage('Admin',user.name+' has left.'))
+        }
+        
+       
     });
     
 })
