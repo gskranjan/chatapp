@@ -58,6 +58,12 @@ socket.on('connect',function(){
 
 
 var params=jQuery.deparam(window.location.search);
+
+    console.log(params);
+    
+    
+    params.room=(params.room).toLowerCase();
+    
 socket.emit('join',params,function(err){
     
     if(err){
@@ -136,7 +142,7 @@ socket.emit('join',params,function(err){
         });
         
         jQuery('#messages').append(html);
-        
+              scrollToBottom();
         
         
       /* var li=jQuery('<li></li>');
