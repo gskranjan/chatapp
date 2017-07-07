@@ -79,7 +79,7 @@ socket.on('connect',function(){
 var params=jQuery.deparam(window.location.search);
 
    
-    
+    console.log(params);
     
     params.room=(params.room).toLowerCase();
     if(params.select){
@@ -125,6 +125,7 @@ socket.emit('join',params,function(err){
       //  jQuery('#messages').append(li);
         
     });
+    
     
     
   
