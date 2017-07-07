@@ -18,6 +18,10 @@ console.log(me.returnvalues());
 */
 
 
+
+
+
+
 class Users{
     
     constructor(){
@@ -64,6 +68,23 @@ class Users{
         });
         
         return names;
+    }
+    
+    
+    getRoomList(){
+        
+        var rooms =this.users.map((user)=>{
+            return user.room;
+        });
+        
+
+        
+        
+        var unique = rooms.filter(function(elem, index, self) {
+          return index == self.indexOf(elem);
+           });
+        
+        return unique;
     }
 };
 

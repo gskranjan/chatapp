@@ -22,20 +22,44 @@
             <input type="text" name="name" autofocus />
             </div>
         <div class="form-field">
-             <label>Chat room name</label>
-            <input type="text" name="room"  />
-            
+             <label>Add a chat room </label>
+            <input type="text" name="room"  /> 
             </div>
+            
+            
+        <div class="form-field">
+                  
+            <label>Select a chat room</label>
+             <select name="select" id="please">
+            <option selected></option>
+            
+            
+            </select>
+            
+        </div>
+            
+            
         <div class="form-field">
             <button>Join</button>
             
             </div>
         </form>
         </div>
+        
+     <script id="selectScript" type="text/template">
+  
+      <option value={{name}}>{{name}}</option>
+       
+    </script>
     
-    
-      
-      
+     
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/libs/jquery-3.2.1.min.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/libs/deparam.js"></script>
+    <script src="/js/libs/moment.js"></script>
+    <script src="/js/libs/mustache.js"></script>
+        
       
         
     </body>

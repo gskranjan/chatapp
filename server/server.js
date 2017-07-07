@@ -40,6 +40,11 @@ io.on('connection',(socket)=>{
     
    /* socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));*/
     
+    
+  
+    
+    
+    
    
     
     socket.on('join',(params,callback)=>{
@@ -50,24 +55,40 @@ io.on('connection',(socket)=>{
               return  callback('name and room are required');      
         };
         
+        
+
+        
         socket.join(params.room);
         
         users.removeUser(socket.id);
         
         users.addUser(socket.id,params.name,params.room);
         
+          socket.emit('getRoomsList',users.getRoomList());
+        
         io.to(params.room).emit('updateUserList',users.getUserList(params.room));
         
         socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
     
-     
+         //  console.log(users.getRoomList());
+   
+      
+        
         
         
         
         
         callback();
         
-    })
+    });
+    
+      socket.on('joinIndex',function(e){
+        
+        socket.emit('getRoomsList',users.getRoomList());
+        
+    });
+    
+    
     
 
     socket.on('createLocationMessage',(message)=>{

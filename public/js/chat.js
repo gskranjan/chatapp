@@ -42,11 +42,30 @@ function scrollToBottom () {
   }
 }
 
+
+
+
 socket.on('connect',function(){
     console.log('connected to server');
     
+      /* socket.on('getRoomsList',function(names){
+       console.log(names);
+        
+        var select=jQuery('<select></select');
+        
+        
+        names.forEach((name)=>{
+           
+            select.append(jQuery('<option value=name></option').text(name));
+            
+        });
+        
+        jQuery('#selectfield').html(select);
+        
+    });
+    */
     socket.on('updateUserList',function(users){
-       var ol=jQuery('<li></li>');
+       var ol=jQuery('<ol></ol>');
         
         users.forEach(function(user){
             
@@ -59,12 +78,17 @@ socket.on('connect',function(){
 
 var params=jQuery.deparam(window.location.search);
 
-    console.log(params);
+   
     
     
     params.room=(params.room).toLowerCase();
-    
+    if(params.select){
+        
+        params.room=params.select;
+    }
+ 
 socket.emit('join',params,function(err){
+    
     
     if(err){
         alert(err);
