@@ -67,7 +67,7 @@ io.on('connection',(socket)=>{
         
         users.removeUser(socket.id);
         
-        users.addUser(socket.id,params.name,params.room,params.password);
+        users.addUser(socket.id,params.name,params.room);
         
         //  socket.emit('getRoomsList',users.getRoomList());
 
