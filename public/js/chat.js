@@ -79,9 +79,10 @@ socket.on('connect',function(){
 var params=jQuery.deparam(window.location.search);
 
    
-    console.log(params);
-    
+
+    if(params.room){
     params.room=(params.room).toLowerCase();
+        }
     if(params.select){
         
         params.room=params.select;

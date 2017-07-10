@@ -26,6 +26,7 @@ class Users{
     
     constructor(){
         this.users=[];
+        this.adminUsers=[];
     }
     
     addUser(id,name,room){
@@ -33,6 +34,7 @@ class Users{
                  id:id,
                  name:name,
                  room:room
+            
       };
       
       this.users.push(user);    
@@ -86,6 +88,25 @@ class Users{
         
         return unique;
     }
+    
+    isValid(room,password){
+        
+        var user=this.users.filter(function(user){
+            
+            return user.password==password;
+            
+        });
+        
+        if(user){
+            
+            return true;
+        }
+        else{
+            return false;
+        }
+        
+    }
+    
 };
 
 module.exports.Users=Users;

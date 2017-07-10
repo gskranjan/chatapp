@@ -36,7 +36,7 @@ app.use(express.static(publicPath));
 
 io.on('connection',(socket)=>{
     
-    console.log('new user connected');
+    
     
    /* socket.emit('welcome',generateMessage('admin','welcome to chat app by ranjan'));*/
     
@@ -49,11 +49,16 @@ io.on('connection',(socket)=>{
     
     socket.on('join',(params,callback)=>{
         
+        
+        
+        
+        
           socket.emit('newMessage',generateMessage('Admin','Welcome to The Chat App Neon'));
  
         if(!validator(params.room)||!validator(params.name)){
               return  callback('name and room are required');      
         };
+        
         
         
 
@@ -62,22 +67,16 @@ io.on('connection',(socket)=>{
         
         users.removeUser(socket.id);
         
-        users.addUser(socket.id,params.name,params.room);
+        users.addUser(socket.id,params.name,params.room,params.password);
         
-          socket.emit('getRoomsList',users.getRoomList());
-        
+        //  socket.emit('getRoomsList',users.getRoomList());
+
         io.to(params.room).emit('updateUserList',users.getUserList(params.room));
         
         socket.broadcast.to(params.room).emit('newMessage',generateMessage('Admin',params.name+'  joined'));
     
          //  console.log(users.getRoomList());
-   
-      
-        
-        
-        
-        
-        
+         
         callback();
         
     });
